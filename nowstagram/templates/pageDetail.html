@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+{% block title %}PageDetail{% endblock %}
+{% block css %}/static/styles/pages/detail.css{% endblock %}
+{% block content %}
+<div class="page-main clearfix">
+    <article>
+        <div class="pic-wrapper">
+            <img src="{{image.url}}?imageView/1/w/600/h/600">
+        </div>
+        <div class="pic-discuss">
+            <header class="discuss-hd">
+                <a href="/profile/{{image.user.url}}" class="avatar">
+                    <img src="{{image.user.head_url}}">
+                </a>
+                <div class="profile-info">
+                    <a title="{{image.user.username}}" href="/profile/{{image.user.id}}">{{image.user.username}}</a>
+                </div>
+            </header>
+
+            <ul class="discuss-list">
+
+                {% for comment in image.comments %}
+                {% if loop.index > 10 %} {% break %} {% endif %}
+                <li>
+                    <a title="{{comment.user.username}}" href="/profile/{{comment.user.id}}">{{comment.user.username}}</a>
+                    <span>
+                        <span>{{comment.content}}</span>
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+            <section class="discuss-edit">
+                <a class="icon-heart-empty"></a>
+                <form>
+                    <input placeholder="add comment..." id="jsCmt" type="text" >
+                </form>
+                <button class="more-info" id="jsSubmit">更多选项</button>
+            </section>
+        </div>
+    </article>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    window.imageId ={{image.id}};
+</script>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/detail.js"></script>
+{% endblock %}

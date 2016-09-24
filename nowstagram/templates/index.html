@@ -1,0 +1,81 @@
+{% extends 'base.html'%}
+{% block title %}Index {{current_user.username}}{% endblock %}
+{% block css %}/static/styles/pages/index.css{% endblock %}
+{% block content %}
+<div class="page-main clearfix js-index-list">
+    {% for image in images %}
+    <article class="mod">
+        <header class="mod-hd">
+            <time class="time">{{image.created_date}}</time>
+            <a href="/profile/{{image.user.id}}" class="avatar">
+                <img src="{{image.user.head_url}}">
+            </a>
+            <div class="profile-info">
+                <a title="{{image.user.id}}" href="/profile/{{image.user.id}}">{{image.user.username}}</a>
+            </div>
+        </header>
+        <div class="mod-bd">
+            <div class="img-box">
+                <a href="/image/{{image.id}}">
+                    <img src="{{image.url}}">
+                </a>
+            </div>
+        </div>
+        <div class="mod-ft">
+            <ul class="discuss-list">
+                <li class="more-discuss">
+                    <a>
+                        <span>
+                            {% if image.comments|length > 1: %}
+                            There are
+                            {% else %}
+                            There is
+                            {% endif %}
+                        </span>
+                        <span class="">{{image.comments|length}}</span>
+                        <span>
+                            {% if image.comments|length > 1: %}
+                            comments.
+                            {% else %}
+                            comment.
+                            {% endif %}
+                        </span></a>
+                </li>
+                {% for comment in image.comments %}
+                {% if loop.index > 3 %}
+                {% break %}
+                {% endif %}
+                <li>
+                    <a class="_4zhc5 _iqaka" title="{{comment.user.username}}" href="/profile/{{comment.user.id}}" data-reactid=".0.1.0.0.0.2.1.2:$comment-17856951190001917.1">{{comment.user.username}}</a>
+                    <span>
+                        <span>{{comment.content}}</span>
+                    </span>
+                </li>
+                {% endfor %}
+
+            </ul>
+            <section class="discuss-edit">
+                <a class="icon-heart"></a>
+                <form>
+                    <input placeholder="add comment..." type="text">
+                </form>
+                <button class="more-info">更多选项</button>
+            </section>
+        </div>
+    </article>
+    {% endfor %}
+
+</div>
+ {% if has_next  %}
+     <div class="more-content js-load-more">
+        <a class="_oidfu" href="javascript:void(0);">More</a>
+     </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/index.js"></script>
+{% endblock%}
+
